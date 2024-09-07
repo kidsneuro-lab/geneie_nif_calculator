@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GENEie NIF Calculator{% endblock %}</title>
+    <!-- Tabler CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/nifcalc.css') }}" rel="stylesheet">
+
+    <!-- Datatables CSS -->
+    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.5/b-3.1.2/b-html5-3.1.2/datatables.min.css" rel="stylesheet">
+
+    <style>
+        /* Additional styling for better layout and responsiveness */
+        .container-xl,
+        .container-fluid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .card {
+            margin-bottom: 15px;
+        }
+
+        .btn-group-toggle .btn {
+            padding: 10px 20px;
+        }
+
+        .btn-group-toggle {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-xl">
+            <a href="/" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-dna-2">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path
+                        d="M17 3v1c-.01 3.352 -1.68 6.023 -5.008 8.014c-3.328 1.99 3.336 -2 .008 -.014c-3.328 1.99 -5 4.662 -5.008 8.014v1">
+                    </path>
+                    <path
+                        d="M17 21.014v-1c-.01 -3.352 -1.68 -6.023 -5.008 -8.014c-3.328 -1.99 3.336 2 .008 .014c-3.328 -1.991 -5 -4.662 -5.008 -8.014v-1">
+                    </path>
+                    <path d="M7 4h10"></path>
+                    <path d="M7 20h10"></path>
+                    <path d="M8 8h8"></path>
+                    <path d="M8 16h8"></path>
+                </svg>
+                <span>GENEie NIF Calculator</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://geneie.frontiergenomics.com.au/" class="btn btn-outline-primary" target="_blank" >
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
+                            GENEie
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="container-xl">
+        {% block content %}
+        <!-- Content will be inserted here -->
+        {% endblock %}
+    </main>
+
+    <!-- Tabler JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/tabler.min.js"></script>
+
+    {% block scripts %}
+    <!-- Additional scripts will be inserted here -->
+    {% endblock %}
+</body>
+
+</html>

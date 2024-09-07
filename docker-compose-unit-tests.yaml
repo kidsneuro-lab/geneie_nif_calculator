@@ -1,0 +1,11 @@
+services:
+
+  unit-tests:
+    image: unit-tests
+    container_name: unit-tests
+    build:
+      context: .
+      target: tests
+    environment:
+      - APP_DEBUG=1
+    command: ["pytest"]

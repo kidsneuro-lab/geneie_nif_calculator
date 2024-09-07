@@ -1,0 +1,12 @@
+services:
+
+  app:
+    image: nif-calculator
+    container_name: nif-calculator
+    build:
+      context: .
+      target: runtime
+    environment:
+      - APP_DEBUG=0
+    ports:
+      - "6001:5000"

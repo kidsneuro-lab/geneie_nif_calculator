@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GENEie NIF Calculator</title>
+    <!-- Tabler CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler.min.css" rel="stylesheet">
+    <style>
+        /* Additional styling for better layout and responsiveness */
+        .container-xl,
+        .container-fluid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        #igvDiv {
+            height: 500px;
+            border: 1px solid rgb(182, 24, 24);
+            margin-bottom: 15px;
+        }
+
+        .card {
+            margin-bottom: 15px;
+        }
+
+        .btn-group-toggle .btn {
+            padding: 10px 20px;
+        }
+
+        .btn-group-toggle {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-xl">
+            <a class="navbar-brand" href="#">GENEie NIF Calculator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="card mx-3 mt-3">
+        <div class="card-header">
+            <div>
+                <h3 class="card-title">
+                    Visualise NIF values for selected region
+                </h3>
+                <p class="card-subtitle">
+                    Lorem ipsum dolor sit amet consectetur adipisicing.
+                </p>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div id="igvDiv"></div>
+                </div>
+            </div>
+            <div class="row justify-content-left mb-3 ms-2">
+                <div class="col-auto">
+                    <button id="calculateNifButton" class="btn btn-primary">Calculate NIF for displayed IGV region</button>
+                </div>
+                <div class="col-auto">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="strand" id="positive" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="positive">+ve Strand</label>
+    
+                        <input type="radio" class="btn-check" name="strand" id="negative" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="negative">-ve Strand</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center pb-3">
+                <div class="col-11">
+                    <div id="nifResultsTable" class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr><th>end</th><th>motif_type</th><th>seq</th><th>start</th></tr></thead><tbody><tr><td>154380360</td><td>donor</td><td>TGACGCTTTCCA</td><td>154380349</td></tr><tr><td>154380375</td><td>donor</td><td>CCAGGTGAGCTG</td><td>154380364</td></tr><tr><td>154380379</td><td>donor</td><td>GTGAGCTGGCTG</td><td>154380368</td></tr><tr><td>154380383</td><td>donor</td><td>GCTGGCTGGCAG</td><td>154380372</td></tr></tbody></table>                    <!-- The table will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NIF Calculation Section -->
+    <div class="card mx-3">
+        <div class="card-header">
+            <div>
+                <h3 class="card-title">
+                    Calculate NIFs' for custom sequence
+                </h3>
+                <p class="card-subtitle">
+                    Lorem ipsum dolor sit amet consectetur adipisicing.
+                </p>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="row mt-3 px-3">
+                <div class="col-9">
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <button id="getLociButton" class="btn btn-secondary w-100 mb-2">Obtain IGV region sequence</button>
+                    <button id="generateNifButton" class="btn btn-secondary w-100">Generate NIF table</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabler JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/js/tabler.min.js"></script>
+
+    <!-- IGV.js -->
+    <script src="https://cdn.jsdelivr.net/npm/igv@3.0.2/dist/igv.min.js"></script>
+
+    <script src="/static/js/utils.js"></script>
+
+    <!-- JavaScript to initialize IGV and handle button click -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const igvOptions = {
+                genome: 'hg38',
+                locus: 'chrX:154,379,273-154,381,574'
+            };
+            igv.createBrowser(document.getElementById("igvDiv"), igvOptions).then(function (browser) {
+                window.igvBrowser = browser;
+            });
+
+            document.getElementById('getLociButton').addEventListener('click', function () {
+                if (window.igvBrowser) {
+                    const loci = window.igvBrowser.currentLoci();
+                    console.log("Current Loci:", loci);
+
+                    if (loci.length > 0) {
+                        const cleanedLoci = cleanLoci(loci);
+                        const apiUrl = `/api/get_sequence?region=${encodeURIComponent(cleanedLoci)}`;
+
+                        fetch(apiUrl)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Sequence Data:', data);
+                                // You can now do something with the sequence data, like displaying it in the UI
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                            });
+                    } else {
+                        console.log("No loci available.");
+                    }
+                } else {
+                    console.log("IGV browser is not initialized.");
+                }
+            });
+
+            document.getElementById('calculateNifButton').addEventListener('click', function () {
+                if (window.igvBrowser) {
+                    const loci = window.igvBrowser.currentLoci();
+                    const cleanedLoci = cleanLoci(loci)
+
+                    const strand = document.querySelector('input[name="strand"]:checked').id
+                    console.log("Calculating NIF for loci:", cleanedLoci, "on strand:", strand);
+
+                    const apiUrl = `/api/get_nifs?region=${encodeURIComponent(cleanedLoci)}&strand=${encodeURIComponent(strand)}`;
+
+                    fetch(apiUrl)
+                    .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Sequence Data:', data);
+
+                                renderNifTable(data);
+                                // You can now do something with the sequence data, like displaying it in the UI
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                            });
+                } else {
+                    console.log("IGV browser is not initialized.");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
