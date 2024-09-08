@@ -148,6 +148,15 @@
                     if (table) {
                         table.clear().destroy(); // Destroy existing instance
                     }
+                
+                    // Define column indices
+                    const SEQUENCE_COL = 2;
+                    const U5_COL = 3;
+                    const U1_COL = 4;
+                    const U6_COL = 5;
+                    const A9_A1_COL = 6;
+                    const A8_E1_COL = 7;
+                    const A7_E2_COL = 8;
 
                     // Ensure data is mapped in the correct order: motif_type, seq, U5, U1, U6, A9_A1, A8_E1, A7_E2
                     data.forEach(row => {
@@ -179,17 +188,17 @@
                             const td = document.createElement('td');
                             td.innerHTML = cellValue !== undefined ? cellValue : ''; // Use innerHTML to handle formatted sequences
 
-                            if (index === 2) {
+                            if (index === SEQUENCE_COL) {
                                 td.style.fontFamily = 'monospace';
                             }
 
-                            if (index === 3 || index === 4 || index === 5) {
+                            if (index === U5_COL || index === U1_COL || index === U6_COL) {
                                 const opacity = Math.min(cellValue / 1.0, 1);
                                 td.setAttribute('style', getHexColorStyle('#d95100', opacity));
                                 td.classList.add('nif-value');
                             }
 
-                            if (index === 6 || index === 7 || index === 8) {
+                            if (index === A9_A1_COL || index === A8_E1_COL || index === A7_E2_COL) {
                                 const opacity = Math.min(cellValue / 1.0, 1);
                                 td.setAttribute('style', getHexColorStyle('#a700f5', opacity));
                                 td.classList.add('nif-value');
