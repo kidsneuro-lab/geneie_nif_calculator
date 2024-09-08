@@ -49,7 +49,7 @@ COPY --from=build /usr/local/bin /usr/local/bin
 COPY . .
 
 # Expose the port on which the Flask app will run
-EXPOSE 5000
+EXPOSE 80
 
 # Command to run the Flask app
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "nif_calculator.app:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "nif_calculator.app:app"]
