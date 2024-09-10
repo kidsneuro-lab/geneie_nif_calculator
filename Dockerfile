@@ -29,6 +29,9 @@ COPY requirements-dev.txt .
 # Install additional test dependencies
 RUN pip3 install --no-cache-dir -r requirements-dev.txt
 
+# Install chromium
+RUN playwright install chromium --with-deps
+
 # Copy the application code and test files
 COPY . .
 
