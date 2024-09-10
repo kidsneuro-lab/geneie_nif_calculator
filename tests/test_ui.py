@@ -6,11 +6,11 @@ from playwright.sync_api import Page, expect
 
 from nif_calculator.app import app
 
-APP_URL = "http://localhost:5001/"
+APP_URL = "http://localhost:6001/"
 
 @pytest.fixture(scope="module")
 def live_server():
-    server = threading.Thread(target=app.run, kwargs={'port': 5001})
+    server = threading.Thread(target=app.run, kwargs={'port': 6001})
     server.daemon = True
     server.start()
     yield
@@ -73,8 +73,8 @@ class TestUIValidScenarios:
         expect(second_row.locator('td:nth-child(5)')).to_have_text("")  # U1 column
         expect(second_row.locator('td:nth-child(6)')).to_have_text("")  # U6 column
         expect(second_row.locator('td:nth-child(7)')).to_have_text("0.04")  # A9_A1 column
-        expect(second_row.locator('td:nth-child(8)')).to_have_text("0.04")  # A8_E1 column
-        expect(second_row.locator('td:nth-child(9)')).to_have_text("0.04")  # A7_E2 column
+        expect(second_row.locator('td:nth-child(8)')).to_have_text("0.01")  # A8_E1 column
+        expect(second_row.locator('td:nth-child(9)')).to_have_text("0.05")  # A7_E2 column
         
         # Locate the error message div
         error_message_div = page.locator('#errorMessage')

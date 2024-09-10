@@ -51,8 +51,8 @@ class NIFAnnotator:
                     'U1': None,
                     'U6': None,
                     'A9_A1': round(entry['nif']['ACC']['A9_A1']['pctl'], 2),
-                    'A8_E1': round(entry['nif']['ACC']['A9_A1']['pctl'], 2),
-                    'A7_E2': round(entry['nif']['ACC']['A9_A1']['pctl'], 2),
+                    'A8_E1': round(entry['nif']['ACC']['A8_E1']['pctl'], 2),
+                    'A7_E2': round(entry['nif']['ACC']['A7_E2']['pctl'], 2),
                 }
                 
                 formatted_motif_nifs.append(formatted_motif_nif_entry)
