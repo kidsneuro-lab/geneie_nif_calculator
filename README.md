@@ -12,7 +12,7 @@ A splice-site can be divided into overlapping windows of 9-nucleotides (nt) to m
 
 ## Which reference and assembly is Native Intron Frequency (NIF) based on?
 
-* Ensembl Release 104
+* Ensembl Release 110
 * GRCh38
 
 ## What is GENEie?
